@@ -14,3 +14,4 @@ jobs:
     with:
       project: gha-docs
       directory: fixture/docs
+    secrets: inherit
