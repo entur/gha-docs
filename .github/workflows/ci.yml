@@ -1,0 +1,16 @@
+name: Entur/Docs/CI
+
+on:
+  pull_request:
+
+jobs:
+  generate-doc-for-publish:
+    uses: entur/gha-meta/.github/workflows/auto-doc.yml
+    with:
+      workflow_file: .github/workflows/publish.yml
+      readme_file: README-publish.md
+  test-publish:
+    uses: ./.github/workflows/publish.yml
+    with:
+      project: gha-docs
+      directory: fixture/docs
