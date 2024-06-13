@@ -5,7 +5,7 @@ on:
 
 jobs:
   generate-doc-for-publish:
-    uses: entur/gha-meta/.github/workflows/auto-doc.yml
+    uses: entur/gha-meta/.github/workflows/auto-doc.yml@1
     with:
       workflow_file: .github/workflows/publish.yml
       readme_file: README-publish.md
