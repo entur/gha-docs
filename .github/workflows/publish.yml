@@ -28,7 +28,7 @@ jobs:
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}" # Replace with the name of your GitHub Actions secret
       - name: Upload docs to Entur Docs GCS
         run: |
-          sudo apt-get install -y rsync
+          sudo apt-get install -y rsync gsutil
           if [[ -z "${GHA_DOCS_PUBLISH_PROJECT}" ]]; then
             echo "Project name must be specified."
             exit 1
