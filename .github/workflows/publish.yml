@@ -46,7 +46,7 @@ jobs:
           rsync -R -r ${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}/** temp-docs -v
 
           echo "Starting to sync files to GCS Bucket..."
-          gsutil -m rsync ${RSYNC_MODE} temp-docs/* gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}
+          gsutil -m rsync -d -r temp-docs/* gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}
 
           echo "Removing working directory..."
           rm -rfv temp-docs
