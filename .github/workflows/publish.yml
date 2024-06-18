@@ -22,15 +22,22 @@ jobs:
         shell: bash
         run: |
           echo "GHA_DOCS_PUBLISH_PROJECT=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
-      - id: set-time
-        shell: bash
-        run: |
-          sudo apt install -y ntpdate
-          sudo ntpdate time.windows.com
+        # shell: bash
+        # run: |
+        # When time is not set, you may get this:
+        # https://github.com/entur/gha-docs/actions/runs/9560523727/job/26352833012
+        #
+        # ERROR: (gcloud.storage.rsync)
+        # There was a problem refreshing auth tokens for account
+        # entur-docs-ci@entur-docs.iam.gserviceaccount.com ...
+        # sudo apt install -y ntpdate
+        # sudo ntpdate time.windows.com
+      # - id: set-time
       - uses: actions/checkout@v4
       - id: auth
         uses: "google-github-actions/auth@v2"
         with:
+          export_default_credentials: true
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}"
       - uses: "google-github-actions/setup-gcloud@v2"
       - name: Upload docs to Entur Docs GCS
