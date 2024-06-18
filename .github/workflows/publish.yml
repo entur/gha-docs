@@ -12,6 +12,11 @@ on:
 env:
   GHA_DOCS_PUBLISH_PROJECT: ${{ inputs.project }}
   GHA_DOCS_PUBLISH_DOCS_DIRECTORY: ${{ inputs.directory }}
+
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-24.04
@@ -23,30 +28,19 @@ jobs:
         run: |
           echo "GHA_DOCS_PUBLISH_PROJECT=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
-      - uses: "google-github-actions/auth@v2"
+      - id: auth
+        uses: "google-github-actions/auth@v2"
         with:
-          credentials_json: "${{ secrets.ENTUR_DOCS_SA }}" # Replace with the name of your GitHub Actions secret
+          credentials_json: "${{ secrets.ENTUR_DOCS_SA }}"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        # with:
+        # version: ">= 363.0.0"
       - name: Upload docs to Entur Docs GCS
         run: |
-          sudo apt-get install -y rsync
           if [[ -z "${GHA_DOCS_PUBLISH_PROJECT}" ]]; then
             echo "Project name must be specified."
             exit 1
           fi
-
-          if ! which rsync > /dev/null; then
-            echo "rsync is not installed. Please run this command with a executor that supports rsync."
-            exit 1
-          fi
-
-          RSYNC_MODE="-r"
-          RSYNC_MODE="-dr" # Replace all
-
-          echo "Preparing working directory..."
-          rsync -R -r ${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}/** temp-docs -v
-
-          echo "Starting to sync files to GCS Bucket..."
-          gsutil -m rsync ${RSYNC_MODE} temp-docs/* gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}
-
-          echo "Removing working directory..."
-          rm -rfv temp-docs
+          echo "Starting to sync files to GCS Bucket to /${GHA_DOCS_PUBLISH_PROJECT}"
+          gcloud storage rsync -r "${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}" "gs://entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/docs"
