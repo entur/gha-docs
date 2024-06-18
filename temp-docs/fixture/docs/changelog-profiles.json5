@@ -1,0 +1,123 @@
+{
+  team: 'Personalisering',
+  changelog_page: 'customers-changelog',
+  api_service: "Profiles",
+  changes: [
+    {
+      version: "customers-3.6.139",
+      type: 'Improvement',
+      environments: ":dev: :staging: :prod:",
+      date: "2020-10-14",
+      description: 'EcardNumber16Digits is optional in create and update requests.\
+If not set, it will be calculated based on ecard number and operator. \ ',
+    },
+    {
+      version: "customers-3.6.145",
+      type: 'Improvement',
+      environments: ":dev: :staging: :prod:",
+      date: "2021-01-06",
+      description: 'New endpoint /profile-search for paginated customer search. \
+Default number of customers per page is 50. Default page is 1. \ ',
+    },
+    {
+      version: "customers-3.6.169",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2021-11-11",
+      description: 'New endpoint /customer-accounts/{accountId}/profiles for getting customer profile by customer account id. \ ',
+    },
+    {
+      version: "customers-3.7.1",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-02-25",
+      description: 'Added optional Vipps id to endpoints for creating and changing customer profile. \
+      See the endpoints POST /profiles and PUT /profiles/{customerNumber}'
+    },
+    {
+      version: "customers-3.7.2",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-02-24",
+      description: 'Added optional search parameter Vipps id to GET /profiles. \ ',
+    },
+    {
+      version: "customers-3.8.1",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-05-03",
+      description: 'CustomerPutRequest validation no longer fails when customerAccountId (deprecated) is empty, and the customer profile has a customer account. \ ',
+    },
+    {
+      version: "customers-3.9.0",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-06-27",
+      description: 'Add permission store to customers. Internal token or special permission is needed for access to all customers . \ ',
+    },
+    {
+      version: "customers-3.9.20",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-08-12",
+      description: 'New endpoint DELETE /profiles/{customerNumber}/customer-accounts/{accountId} for customer accounts. \
+       Access to customer is required to delete their customer account',
+    },
+    {
+      version: "customers-4.0.0",
+      type: 'Breaking',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-08-17",
+      description: 'Existing endpoint PATCH /profiles/{customerNumber}/customer-accounts/{accountId} now uses {accountId} (string) instead of unique DB id (long) for updating customer accounts. ',
+    },
+    {
+      version: "customers-5.0.0",
+      type: 'Breaking',
+      environments: ":dev: :staging: :prod:",
+      date: "2022-09-26",
+      description: 'Removed endpoint PUT /profiles/{customerNumber}/reset-uuid',
+    },
+    {
+      version: "customers-5.1.0",
+      type: 'Improvement',
+      environments: ":dev: :staging: :prod:",
+      date: "2023-06-05",
+      description: '# Improve profile search against telephone number fields. \n\
+When searching for profiles with /profiles or /profiles-search using telephone numbers, the parameters countryCode and telephoneNumberNoCountryCode should be used. \n\
+Both must be specified. Using the telephoneNumber parameter is deprecated and may not return all results. \n\
+# Fix value of CustomerResponse.telephoneNumber \n\
+CustomerResponse.telephoneNumber is a deprecated field and should not be used. After this change, the value of CustomerResponse.telephoneNumber will \
+always mirror CustomerReponse.countryCode and CustomerResponse.telephoneNumberNoCountryCode, if those fields are filled out. Previously it could return an outdated value. \
+      '
+    },
+    {
+      version: "customers-5.1.0",
+      type: 'Breaking',
+      environments: ":dev: :staging: :prod:",
+      date: "2023-11-08",
+      description: '## Remove some deprecated and unused endpoints. \n\
+Some deprecated and unused endpoints are removed. All of the endpoints were either not exposed in the proxy, or for internal use. \
+Therefore, the removals should not result in any breaking changes, but the OpenApi spec might contain some changes. These are the removed endpoints: \n\
+* `/countries` \n\
+* `/consents/v1` \n\
+* `/post-codes` \n\
+* `/error-messages` \n\
+* `/blacklisted-phones` \n\
+* `/customers/{customerNumber}/personnel-ticket-bearer` \n\
+* `/customers/{customerNumber}/customer-numbers` \n\
+* `/customers/{customerNumber}/customer-references` \n\
+* `/profiles/{customerNumber}/personnel-ticket-bearer` \n\
+* `/profiles/{customerNumber}/customer-numbers` \n\
+* `/profiles/{customerNumber}/customer-references` \n\
+      '
+    },
+    {
+      version: "customers-5.2.0",
+      type: 'New',
+      environments: ":dev: :staging: :prod:",
+      date: "2024-03-06",
+      description: 'Added endpoint to get customer accounts by customer number. \n\
+      See the endpoint GET /profiles/{customerNumber}/customer-accounts'
+    }
+  ]
+}

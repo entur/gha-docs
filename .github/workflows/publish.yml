@@ -34,19 +34,11 @@ jobs:
             exit 1
           fi
 
-          if ! which rsync > /dev/null; then
-            echo "rsync is not installed. Please run this command with a executor that supports rsync."
-            exit 1
-          fi
-
-          RSYNC_MODE="-r"
-          RSYNC_MODE="-dr" # Replace all
-
-          echo "Preparing working directory..."
+          echo "Preparing temp-docs directory from ${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}..."
           rsync -R -r ${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}/** temp-docs -v
 
-          echo "Starting to sync files to GCS Bucket..."
-          gsutil -m rsync -d -r temp-docs/* gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}
+          echo "Starting to sync files to GCS Bucket to /${GHA_DOCS_PUBLISH_PROJECT}"
+          gsutil -m rsync -d -r temp-docs/* "gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}"
 
-          echo "Removing working directory..."
+          echo "Removing temp-docs directory..."
           rm -rfv temp-docs
