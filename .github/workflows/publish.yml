@@ -41,7 +41,12 @@ jobs:
         uses: "google-github-actions/auth@v2"
         with:
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}"
-      - uses: "google-github-actions/setup-gcloud@v2"
+      - name: "Set up Cloud SDK"
+        uses: "google-github-actions/setup-gcloud@v2"
+        with:
+          version: ">= 363.0.0"
+      - name: "Use gcloud CLI"
+        run: "gcloud info"
       - name: Upload docs to Entur Docs GCS
         run: |
           if [[ -z "${GHA_DOCS_PUBLISH_PROJECT}" ]]; then
