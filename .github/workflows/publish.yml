@@ -29,6 +29,8 @@ jobs:
       - name: Upload docs to Entur Docs GCS
         run: |
           sudo apt-get install -y rsync gsutil
+          rsync --version
+          gsutil --version
           if [[ -z "${GHA_DOCS_PUBLISH_PROJECT}" ]]; then
             echo "Project name must be specified."
             exit 1
