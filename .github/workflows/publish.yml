@@ -22,6 +22,11 @@ jobs:
         shell: bash
         run: |
           echo "GHA_DOCS_PUBLISH_PROJECT=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+      - id: set-time
+        shell: bash
+        run: |
+          sudo apt install -y ntpdate
+          sudo ntpdate time.windows.com
       - uses: actions/checkout@v4
       - id: auth
         uses: "google-github-actions/auth@v2"
