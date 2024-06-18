@@ -12,6 +12,9 @@ on:
 env:
   GHA_DOCS_PUBLISH_PROJECT: ${{ inputs.project }}
   GHA_DOCS_PUBLISH_DOCS_DIRECTORY: ${{ inputs.directory }}
+permissions:
+  contents: read
+  id-token: write
 jobs:
   publish:
     runs-on: ubuntu-24.04
@@ -37,7 +40,6 @@ jobs:
       - id: auth
         uses: "google-github-actions/auth@v2"
         with:
-          export_default_credentials: true
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}"
       - uses: "google-github-actions/setup-gcloud@v2"
       - name: Upload docs to Entur Docs GCS
