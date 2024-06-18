@@ -25,7 +25,6 @@ jobs:
       - uses: actions/checkout@v4
       - uses: "google-github-actions/auth@v2"
         with:
-          token_format: "access_token"
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}" # Replace with the name of your GitHub Actions secret
       - uses: "google-github-actions/setup-gcloud@v2"
       - name: Upload docs to Entur Docs GCS
@@ -40,7 +39,7 @@ jobs:
           rsync -R -r ${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}/** temp-docs -v
 
           echo "Starting to sync files to GCS Bucket to /${GHA_DOCS_PUBLISH_PROJECT}"
-          gsutil -m rsync -d -r temp-docs/* "gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}"
+          gcloud storage rsync -r temp-docs/* "gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}"
 
           echo "Removing temp-docs directory..."
           rm -rfv temp-docs
