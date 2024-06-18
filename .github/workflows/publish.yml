@@ -43,7 +43,7 @@ jobs:
 
           echo "Starting to sync files to GCS Bucket to /${GHA_DOCS_PUBLISH_PROJECT}"
           # TODO: should the target path always be .../docs ?
-          gcloud storage rsync -r "${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}/*" "gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}"
+          gcloud storage rsync -r "${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}" "gs://staging.entur-docs.appspot.com/${GHA_DOCS_PUBLISH_PROJECT}/${GHA_DOCS_PUBLISH_DOCS_DIRECTORY}"
 
           # echo "Removing temp-docs directory..."
           # rm -rfv temp-docs
