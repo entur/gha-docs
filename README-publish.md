@@ -1,6 +1,27 @@
 # publish
 
-Publish your documentation
+Publish your developer documentation.
+
+## Usage
+
+By following the golden path, with docs in `./docs` and repo name = project name:
+
+```yaml
+  publish-docs:
+    uses: entur/gha-docs/.github/workflows/publish.yml
+    secrets: inherit
+```
+
+In case your repository is not named the same as your docs project, or if you do not place docs in `./docs` use this: 
+
+```yaml
+  publish-docs:
+    uses: entur/gha-docs/.github/workflows/publish.yml
+    with:
+      project: the-project
+      directory: path/to/docs
+    secrets: inherit
+```
 
 ## Inputs
 
