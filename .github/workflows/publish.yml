@@ -26,7 +26,7 @@ jobs:
       - id: auth
         uses: "google-github-actions/auth@v2"
         with:
-          #token_format: "id_token"
+          token_format: "id_token"
           create_credentials_file: true
           credentials_json: "${{ secrets.ENTUR_DOCS_SA }}" # Replace with the name of your GitHub Actions secret
       - uses: "google-github-actions/setup-gcloud@v2"
