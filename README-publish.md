@@ -8,7 +8,7 @@ By following the golden path, with docs in `./docs` and repo name = project name
 
 ```yaml
   publish-docs:
-    uses: entur/gha-docs/.github/workflows/publish.yml
+    uses: entur/gha-docs/.github/workflows/publish.yml@v1
     secrets: inherit
 ```
 
@@ -16,7 +16,7 @@ In case your repository is not named the same as your docs project, or if you do
 
 ```yaml
   publish-docs:
-    uses: entur/gha-docs/.github/workflows/publish.yml
+    uses: entur/gha-docs/.github/workflows/publish.yml@v1
     with:
       project: the-project
       directory: path/to/docs
