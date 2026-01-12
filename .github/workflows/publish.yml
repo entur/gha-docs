@@ -28,6 +28,20 @@ jobs:
         run: |
           echo "GHA_DOCS_PUBLISH_PROJECT=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
       - uses: actions/checkout@v4
+      - name: Check for ENTUR_DOCS_SA secret
+        env:
+          ENTUR_DOCS_SA: ${{ secrets.ENTUR_DOCS_SA }}
+          REPO_VISIBILITY: ${{ github.event.repository.visibility }}
+        run: |
+          if [ -z "${ENTUR_DOCS_SA}" ]; then
+            if [ "${REPO_VISIBILITY}" = "public" ]; then
+              echo "::error::Upload to bucket will not work out of the box for public repositories, due to the \
+          repository secret ENTUR_DOCS_SA not being available. Ask Team Plattform to add it."
+            else
+              echo "::error::The repository secret ENTUR_DOCS_SA is not available. Please ensure it is configured."
+            fi
+            exit 1
+          fi
       - id: auth
         uses: google-github-actions/auth@v2
         with:
